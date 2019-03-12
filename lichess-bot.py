@@ -191,6 +191,9 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
         logger.error("Abandoning game due to connection error")
         traceback.print_exception(type(exception), exception, exception.__traceback__)
     finally:
+        conversation.xhr.chat(game.id, "player", "GG, thanks for playing")
+        conversation.xhr.chat(game.id, "spectator", "This game was against:")
+        conversation.xhr.chat(game.id, "spectator", f"{engine_cfg['lczero']['weights']}")
         logger.info("--- {} Game over".format(game.url()))
         engine.quit()
         # This can raise queue.NoFull, but that should only happen if we're not processing
