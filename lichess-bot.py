@@ -209,9 +209,9 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
         conversation.xhr.chat(game.id, "spectator", f"{os.path.basename(engine_cfg['lczero']['weights'])}")
         if 'go_commands' in engine_cfg['uci_options']:
             if 'depth' in engine_cfg['uci_options']['go_commands']:
-                conversation.xhr.chat(game.id, "player", f"It can search to a depth of: {engine_cfg['uci_options']['go_commands']['depth']}")
+                conversation.xhr.chat(game.id, "spectator", f"It can search to a depth of: {engine_cfg['uci_options']['go_commands']['depth']}")
             if 'nodes' in engine_cfg['uci_options']['go_commands']:
-                conversation.xhr.chat(game.id, "player", f"It is limited to searching  {engine_cfg['uci_options']['go_commands']['nodes']} nodes")
+                conversation.xhr.chat(game.id, "spectator", f"It is limited to searching  {engine_cfg['uci_options']['go_commands']['nodes']} nodes")
         conversation.xhr.chat(game.id, "spectator", f"and is using {engine_cfg['lczero']['threads']} threads")
         conversation.xhr.chat(game.id, "spectator", f"My internal stats were: {engine.get_stats()}")
 
