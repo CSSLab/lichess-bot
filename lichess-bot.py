@@ -198,7 +198,7 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
         conversation.xhr.chat(game.id, "player", "GG, thanks for playing")
         conversation.xhr.chat(game.id, "spectator", "This game was against:")
         conversation.xhr.chat(game.id, "spectator", f"{engine_cfg['lczero']['weights']}")
-        conversation.xhr.chat(game.id, "spectator", "My internal stats were: {self.engine.get_stats()}")
+        conversation.xhr.chat(game.id, "spectator", f"My internal stats were: {self.engine.get_stats()}")
 
         logger.info("--- {} Game over".format(game.url()))
         engine.quit()
