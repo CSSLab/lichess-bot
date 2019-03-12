@@ -150,7 +150,7 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
 
         engine.set_time_control(game)
 
-        conversation.xhr.chat(game.id, "player", "Hi, you are playing against:")
+        conversation.xhr.chat(game.id, "player", f"Hi {game.opponent.name}, you are playing against:")
 
         conversation.xhr.chat(game.id, "player", f"{os.path.basename(engine_cfg['lczero']['weights'])}")
 
