@@ -159,7 +159,7 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
                 conversation.xhr.chat(game.id, "player", f"It can search to a depth of: {engine_cfg['go_commands']['depth']}")
             if 'nodes' in engine_cfg['go_commands']:
                 conversation.xhr.chat(game.id, "player", f"It is limited to searching  {engine_cfg['go_commands']['nodes']} nodes")
-        conversation.xhr.chat(game.id, "player", f"and is using {engine_cfg['threads']} threads")
+        conversation.xhr.chat(game.id, "player", f"and is using {engine_cfg['lczero']['threads']} threads")
 
         conversation.xhr.chat(game.id, "player", f"We are testing a lot of different networks, we'll have nicer looking names in the future")
 
@@ -212,7 +212,7 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
                 conversation.xhr.chat(game.id, "player", f"It can search to a depth of: {engine_cfg['go_commands']['depth']}")
             if 'nodes' in engine_cfg['go_commands']:
                 conversation.xhr.chat(game.id, "player", f"It is limited to searching  {engine_cfg['go_commands']['nodes']} nodes")
-        conversation.xhr.chat(game.id, "spectator", f"and is using {engine_cfg['threads']} threads")
+        conversation.xhr.chat(game.id, "spectator", f"and is using {engine_cfg['lczero']['threads']} threads")
         conversation.xhr.chat(game.id, "spectator", f"My internal stats were: {engine.get_stats()}")
 
         logger.info("--- {} Game over".format(game.url()))
