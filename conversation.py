@@ -26,18 +26,17 @@ class Conversation():
             self.send_reply(line, "{} (lichess-bot v{})".format(self.engine.name(), self.version))
         elif cmd == "howto":
             self.send_reply(line, "How to run your own bot: lichess.org/api#tag/Chess-Bot")
-        elif cmd == "eval" and line.room == "spectator":
+        elif cmd == "eval":
             stats = self.engine.get_stats()
             self.send_reply(line, ", ".join(stats))
-        elif cmd == "eval":
-            self.send_reply(line, "I don't tell that to my opponent, sorry.")
         elif cmd == "queue":
             if self.challengers:
                 challengers = ", ".join(["@" + challenger.challenger_name for challenger in reversed(self.challengers)])
                 self.send_reply(line, "Challenge queue: {}".format(challengers))
             else:
                 self.send_reply(line, "No challenges queued.")
-
+        else:
+            self.send_reply(line, "This is just a bot, but if you want to know what it's thinking try: !eval")
     def send_reply(self, line, reply):
         self.xhr.chat(self.game.id, line.room, reply)
 

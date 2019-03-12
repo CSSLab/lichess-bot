@@ -152,6 +152,10 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
 
         conversation.xhr.chat(game.id, "player", f"{engine_cfg['lczero']['weights']}")
 
+        conversation.xhr.chat(game.id, "player", f"We are testing a lot of different networks, we'll have nicer looking names in the future")
+
+        conversation.xhr.chat(game.id, "player", "Good luck and I hope you have fun")
+
         for binary_chunk in lines:
             upd = json.loads(binary_chunk.decode('utf-8')) if binary_chunk else None
             u_type = upd["type"] if upd else "ping"
