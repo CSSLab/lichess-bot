@@ -15,12 +15,17 @@ def create_engine(config, board):
     if engine_options:
         for k, v in engine_options.items():
             commands.append("--{}={}".format(k, v))
+    lczero = cfg.get("lczero")
+    if lczero:
+        commands.append("--weights={}".format(lczero['weights']))
+        commands.append("--threads={}".format(lczero.get('threads', 1)))
 
     silence_stderr = cfg.get("silence_stderr", False)
 
     if engine_type == "xboard":
         return XBoardEngine(board, commands, cfg.get("xboard_options", {}) or {}, silence_stderr)
-
+    print("engine commands:", commands)
+    print("uci option:", cfg.get("uci_options", {}))
     return UCIEngine(board, commands, cfg.get("uci_options", {}) or {}, silence_stderr)
 
 
