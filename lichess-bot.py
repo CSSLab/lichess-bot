@@ -213,7 +213,7 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
             if 'nodes' in engine_cfg['uci_options']['go_commands']:
                 conversation.xhr.chat(game.id, "spectator", f"It is limited to searching  {engine_cfg['uci_options']['go_commands']['nodes']} nodes")
         if 'sRand' in engine_cfg.get("lczero", {}):
-            conversation.xhr.chat(game.id, "spectator", f"The search randomization factor is: {engine_cfg['lczero']['sRand']} nodes")
+            conversation.xhr.chat(game.id, "spectator", f"The search randomization factor is: {engine_cfg['lczero']['sRand']:.3f} nodes")
         conversation.xhr.chat(game.id, "spectator", f"and is using {engine_cfg['lczero']['threads']} threads")
         conversation.xhr.chat(game.id, "spectator", f"My internal stats were: {engine.get_stats()}")
 
