@@ -19,6 +19,8 @@ def create_engine(config, board):
     if lczero:
         commands.append("--weights={}".format(lczero['weights']))
         commands.append("--threads={}".format(lczero.get('threads', 1)))
+        commands.append("--search-randomess={}".format(lczero.get('sRand', 0)))
+        commands.append("--p-norm={}".format(lczero.get('pNorm', 0)))
 
     silence_stderr = cfg.get("silence_stderr", False)
 
