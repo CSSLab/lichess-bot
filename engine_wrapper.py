@@ -23,6 +23,8 @@ def create_engine(config, board):
             commands.append("--search-randomess={}".format(lczero.get('sRand', 0)))
         if 'pNorm' in lczero:
             commands.append("--p-norm={}".format(lczero.get('pNorm', 0)))
+        if 'shallow_q' in lczero and lczero.get('shallow_q', False):
+            commands.append("--shallow-q")
 
     silence_stderr = cfg.get("silence_stderr", False)
 
