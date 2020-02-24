@@ -154,7 +154,7 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
 
     ponder_uci = None
     def ponder_thread_func(game, engine, board, wtime, btime, winc, binc):
-        global ponder_results        
+        global ponder_results
         best_move , ponder_move = engine.search_with_ponder(board, wtime, btime, winc, binc, True)
         ponder_results[game.id] = ( best_move , ponder_move )
 
@@ -318,34 +318,19 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
                 continue
             else:
                 break
-<<<<<<< HEAD
-        if not game_over:
-            logger.warn("Abandoning game due to HTTP "+response.status_code)
-    except (RemoteDisconnected, ChunkedEncodingError, ConnectionError, ProtocolError) as exception:
-        logger.error("Abandoning game due to connection error")
-        traceback.print_exception(type(exception), exception, exception.__traceback__)
-    finally:
-        conversation.xhr.chat(game.id, "player", "GG, thanks for playing")
-        conversation.xhr.chat(game.id, "spectator", "This game was against:")
-        conversation.xhr.chat(game.id, "spectator", f"{os.path.basename(engine_cfg['lczero']['weights'])}")
-        if 'go_commands' in engine_cfg['uci_options']:
-            if 'depth' in engine_cfg['uci_options']['go_commands']:
-                conversation.xhr.chat(game.id, "spectator", f"It can search to a depth of: {engine_cfg['uci_options']['go_commands']['depth']}")
-            if 'nodes' in engine_cfg['uci_options']['go_commands']:
-                conversation.xhr.chat(game.id, "spectator", f"It is limited to searching  {engine_cfg['uci_options']['go_commands']['nodes']} nodes")
-        if 'sRand' in engine_cfg.get("lczero", {}):
-            conversation.xhr.chat(game.id, "spectator", f"The search randomization factor is: {engine_cfg['lczero']['sRand']:.3f}")
-        conversation.xhr.chat(game.id, "spectator", f"and is using {engine_cfg['lczero']['threads']} threads")
-        conversation.xhr.chat(game.id, "spectator", f"My internal stats were: {engine.get_stats()}")
-
-        logger.info("--- {} Game over".format(game.url()))
-        engine.quit()
-        # This can raise queue.NoFull, but that should only happen if we're not processing
-        # events fast enough and in this case I believe the exception should be raised
-        control_queue.put_nowait({"type": "local_game_done"})
-=======
-
     logger.info("--- {} Game over".format(game.url()))
+    conversation.xhr.chat(game.id, "player", "GG, thanks for playing")
+    conversation.xhr.chat(game.id, "spectator", "This game was against:")
+    conversation.xhr.chat(game.id, "spectator", f"{os.path.basename(engine_cfg['lczero']['weights'])}")
+    if 'go_commands' in engine_cfg['uci_options']:
+        if 'depth' in engine_cfg['uci_options']['go_commands']:
+            conversation.xhr.chat(game.id, "spectator", f"It can search to a depth of: {engine_cfg['uci_options']['go_commands']['depth']}")
+        if 'nodes' in engine_cfg['uci_options']['go_commands']:
+            conversation.xhr.chat(game.id, "spectator", f"It is limited to searching  {engine_cfg['uci_options']['go_commands']['nodes']} nodes")
+    if 'sRand' in engine_cfg.get("lczero", {}):
+        conversation.xhr.chat(game.id, "spectator", f"The search randomization factor is: {engine_cfg['lczero']['sRand']:.3f}")
+    conversation.xhr.chat(game.id, "spectator", f"and is using {engine_cfg['lczero']['threads']} threads")
+    conversation.xhr.chat(game.id, "spectator", f"My internal stats were: {engine.get_stats()}")
     engine.engine.stop()
     engine.quit()
     if not ( ponder_thread is None ):
