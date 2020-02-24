@@ -99,6 +99,16 @@ class UCIEngine(EngineWrapper):
         best_move, _ = self.engine.go(movetime=movetime)
         return best_move
 
+    def search_with_ponder(self, board, wtime, btime, winc, binc, ponder=False):
+        self.engine.position(board)
+        best_move, ponder_move = self.engine.go(
+            wtime=wtime,
+            btime=btime,
+            winc=winc,
+            binc=binc,
+            ponder=ponder
+        )
+        return ( best_move , ponder_move )
 
     def search(self, board, wtime, btime, winc, binc):
         self.engine.position(board)
@@ -168,27 +178,40 @@ class XBoardEngine(EngineWrapper):
                     pass
 
     def set_time_control(self, game):
-        minutes = game.clock_initial / 1000 / 60
-        seconds = game.clock_initial / 1000 % 60
-        inc = game.clock_increment / 1000
-        self.engine.level(0, minutes, seconds, inc)
+        self.minutes = game.clock_initial / 1000 / 60
+        self.seconds = game.clock_initial / 1000 % 60
+        self.inc = game.clock_increment / 1000
+        self.send_time()
+
+    def send_time(self):
+        self.engine.level(0, self.minutes, self.seconds, self.inc)
 
     def first_search(self, board, movetime):
         self.engine.setboard(board)
-        self.engine.level(0, 0, movetime / 1000, 0)
+        self.engine.st(movetime / 1000)
         bestmove = self.engine.go()
+        self.send_time()
 
         return bestmove
 
     def search(self, board, wtime, btime, winc, binc):
-        self.engine.setboard(board)
+        self.engine.force()
+        try:
+            self.engine.usermove(board.peek())
+        except IndexError:
+            self.engine.setboard(board)
+
+        # XBoard engines expect time in units of 1/100 seconds.
         if board.turn == chess.WHITE:
-            self.engine.time(wtime / 10)
-            self.engine.otim(btime / 10)
+            self.engine.time(wtime // 10)
+            self.engine.otim(btime // 10)
         else:
-            self.engine.time(btime / 10)
-            self.engine.otim(wtime / 10)
+            self.engine.time(btime // 10)
+            self.engine.otim(wtime // 10)
         return self.engine.go()
+
+    def search_with_ponder(self, board, wtime, btime, winc, binc, ponder=False):
+        return self.search(board, wtime, btime, winc, binc), None
 
     def print_stats(self):
         self.print_handler_stats(self.engine.post_handlers[0].post, ["depth", "nodes", "score"])
