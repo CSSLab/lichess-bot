@@ -334,8 +334,6 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
     # This can raise queue.NoFull, but that should only happen if we're not processing
     # events fast enough and in this case I believe the exception should be raised
     control_queue.put_nowait({"type": "local_game_done"})
->>>>>>> 72d5eb1431e24935aad4cf12b86ca7af27d0491a
-
 
 def play_first_move(game, engine, board, li):
     moves = game.state["moves"].split()
