@@ -159,25 +159,20 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
         ponder_results[game.id] = ( best_move , ponder_move )
 
     engine.set_time_control(game)
+    conversation.xhr.chat(game.id, "player", f"Hi {game.opponent.name}, you are playing against:")
 
-<<<<<<< HEAD
-        conversation.xhr.chat(game.id, "player", f"Hi {game.opponent.name}, you are playing against:")
+    conversation.xhr.chat(game.id, "player", f"{os.path.basename(engine_cfg['lczero']['weights'])}")
 
-        conversation.xhr.chat(game.id, "player", f"{os.path.basename(engine_cfg['lczero']['weights'])}")
+    if 'go_commands' in engine_cfg['uci_options']:
+        if 'depth' in engine_cfg['uci_options']['go_commands']:
+            conversation.xhr.chat(game.id, "player", f"It can search to a depth of: {engine_cfg['uci_options']['go_commands']['depth']}")
+        if 'nodes' in engine_cfg['uci_options']['go_commands']:
+            conversation.xhr.chat(game.id, "player", f"It is limited to searching  {engine_cfg['uci_options']['go_commands']['nodes']} nodes")
+    conversation.xhr.chat(game.id, "player", f"and is using {engine_cfg['lczero']['threads']} threads")
 
-        if 'go_commands' in engine_cfg['uci_options']:
-            if 'depth' in engine_cfg['uci_options']['go_commands']:
-                conversation.xhr.chat(game.id, "player", f"It can search to a depth of: {engine_cfg['uci_options']['go_commands']['depth']}")
-            if 'nodes' in engine_cfg['uci_options']['go_commands']:
-                conversation.xhr.chat(game.id, "player", f"It is limited to searching  {engine_cfg['uci_options']['go_commands']['nodes']} nodes")
-        conversation.xhr.chat(game.id, "player", f"and is using {engine_cfg['lczero']['threads']} threads")
+    conversation.xhr.chat(game.id, "player", f"We are testing a lot of different networks, we'll have nicer looking names in the future")
 
-        conversation.xhr.chat(game.id, "player", f"We are testing a lot of different networks, we'll have nicer looking names in the future")
-
-        conversation.xhr.chat(game.id, "player", "Good luck and I hope you have fun")
-
-        for binary_chunk in lines:
-=======
+    conversation.xhr.chat(game.id, "player", "Good luck and I hope you have fun")
     if len(board.move_stack) < 2:
         while not terminated:
             try:
@@ -225,7 +220,6 @@ def play_game(li, game_id, control_queue, engine_factory, user_profile, config, 
         except(StopIteration):
             break
         try:
->>>>>>> 72d5eb1431e24935aad4cf12b86ca7af27d0491a
             upd = json.loads(binary_chunk.decode('utf-8')) if binary_chunk else None
             u_type = upd["type"] if upd else "ping"
             if u_type == "chatLine":
